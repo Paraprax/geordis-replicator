@@ -1,3 +1,5 @@
+require 'pry'
+
 class Replicator
 
   attr_reader :plate
@@ -25,6 +27,7 @@ class Replicator
 
   def retrieve_glass
     @enterprise.transporter.energize(obj: @enterprise.cupboard.find_glass, from: @enterprise.cupboard.shelf, to: @tummy)
+
   end
 
   def glass_in_tummy
@@ -37,6 +40,7 @@ class Replicator
     @recipe.ingredients.each do |ingredient_name|
       @enterprise.transporter.energize(obj: @enterprise.pantry.find_ingredient(ingredient_name), from: @enterprise.pantry.shelf, to: glass_in_tummy.inside)
     end
+
   end
 
   def mix
@@ -45,6 +49,7 @@ class Replicator
     if @power && @enterprise.reactor.draw_power(3)
       glass_in_tummy.inside.contents.shuffle!.compact!
     end
+
   end
 
   def adjust_temperature
@@ -74,7 +79,7 @@ class Replicator
   end
 
   def transport_glass_to_replicator_plate
-    return
+    return unless glass_in_tummy #method was returning without running because no 'unless' condition was set
     @enterprise.transporter.energize(obj: glass_in_tummy, from: @tummy, to: @plate)
   end
 
